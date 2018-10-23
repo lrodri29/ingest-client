@@ -12,7 +12,10 @@ jobs:
     steps:
         - checkout
 
-        - run: sudo apt-get update; sudo apt-get install libjpeg-dev libtiff5-dev zlib1g-dev libfreetype6-dev liblcms2-dev libopenjpeg-dev
+        - run: 
+            command: |
+                sudo apt-get update; 
+                sudo apt-get install -y libjpeg-dev libtiff5-dev zlib1g-dev libfreetype6-dev liblcms2-dev libopenjpeg-dev
 
         - restore_cache:  # ensure this step occurs *before* installing dependencies
             key: deps9-{{ .Branch }}-{{ checksum "Pipfile.lock" }}
