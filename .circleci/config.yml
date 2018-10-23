@@ -12,22 +12,27 @@ jobs:
     steps:
         - checkout
 
+        - restore_cache:  # ensure this step occurs *before* installing dependencies
+            key: deps9-{{ .Branch }}-{{ checksum "Pipfile.lock" }}
+
         - run: 
+            name: Installing basic OS updates and libraries
             command: |
                 sudo apt-get update
                 # sudo apt-get install -y libjpeg-dev libtiff5-dev zlib1g-dev libfreetype6-dev liblcms2-dev libopenjpeg-dev
                 uname -mrs
                 sudo apt-get install -y libjpeg-dev libtiff5-dev zlib1g-dev libfreetype6-dev liblcms2-dev
 
-
-        - restore_cache:  # ensure this step occurs *before* installing dependencies
-            key: deps9-{{ .Branch }}-{{ checksum "Pipfile.lock" }}
-
         - run: 
-            command: | 
-                pip install tox tox-pyenv
-                pyenv local 2.7.10 3.4.3 3.5.1
-                pip install --user -r requirements.txt
+            name: Installing tox 
+            command: pip install tox tox-pyenv
+                
+            name: Installing pyenv environmnents 
+            command: pyenv local 2.7.10 3.4.3 3.5.1
+
+            name: Installing pip requirements 
+            command: pip install --user -r requirements.txt
+                
 
         - save_cache:
             key: deps9-{{ .Branch }}-{{ checksum "Pipfile.lock" }}
