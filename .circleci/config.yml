@@ -13,8 +13,10 @@ jobs:
         - checkout
 
         - restore_cache:  # ensure this step occurs *before* installing dependencies
-            key: deps9-{{ .Branch }}-{{ checksum "Pipfile.lock" }}
-
+            # key: deps9-{{ .Branch }}-{{ checksum "Pipfile.lock" }}
+            keys:
+                - cache-{{ checksum "requirements.txt" }}
+                - cache-
         - run: 
             name: Installing basic OS updates and libraries
             command: |
@@ -25,22 +27,24 @@ jobs:
 
         - run: 
             name: Installing tox 
-            command: pip install tox tox-pyenv
+            command: sudo pip install tox tox-pyenv
                 
+        - run:                
             name: Installing pyenv environmnents 
             command: pyenv local 2.7.10 3.4.3 3.5.1
 
+        - run:
             name: Installing pip requirements 
-            command: pip install --user -r requirements.txt
+            command: sudo pip install -r requirements.txt
                 
 
         - save_cache:
-            key: deps9-{{ .Branch }}-{{ checksum "Pipfile.lock" }}
             paths:
-                - ".venv"
-                - "/usr/local/bin"
-                - "/usr/local/lib/python3.6/site-packages"        
+                - ~/.local
+                - ~/.cache
+            key: cache-{{ checksum "requirements.txt" }}
 
         - run:
+            name: Running tests ... tox
             command: tox
 
