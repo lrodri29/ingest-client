@@ -5,7 +5,7 @@ jobs:
   build:
     working_directory: ~/projects/ingest-client
     docker:
-      - image: circleci/python:3.5.1
+      - image: circleci/python:3.5
         environment:
             PIPENV_VENV_IN_PROJECT: true
   
