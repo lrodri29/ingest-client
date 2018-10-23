@@ -1,0 +1,36 @@
+# Python CircleCI 2.0 configuration file
+#
+
+version: 2
+jobs:
+  build:
+    working_directory: ~/projects/ingest-client
+    docker:
+      - image: circleci/python:3.5.1
+        environment:
+            PIPENV_VENV_IN_PROJECT: true
+  
+  steps:
+    - checkout
+
+    - run: sudo apt-get update; sudo apt-get install libjpeg-dev libtiff5-dev zlib1g-dev libfreetype6-dev liblcms2-dev libopenjpeg-dev
+
+    - restore_cache:  # ensure this step occurs *before* installing dependencies
+        key: deps9-{{ .Branch }}-{{ checksum "Pipfile.lock" }}
+
+    - run: 
+        command: | 
+            pip install tox tox-pyenv
+            pyenv local 2.7.10 3.4.3 3.5.1
+            pip install -r requirements.txt
+
+    - save_cache:
+        key: deps9-{{ .Branch }}-{{ checksum "Pipfile.lock" }}
+          paths:
+            - ".venv"
+            - "/usr/local/bin"
+            - "/usr/local/lib/python3.6/site-packages"        
+
+    - run:
+        command: tox
+        
