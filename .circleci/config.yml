@@ -24,7 +24,7 @@ jobs:
                 uname -a
                 echo "release: `cat /etc/*-release`"
                 
-                sudo apt-get update
+                apt-get update
                 # sudo apt-get install -y libjpeg-dev libtiff5-dev zlib1g-dev libfreetype6-dev liblcms2-dev libopenjpeg-dev
                 sudo apt-get install -y libjpeg-dev libtiff5-dev zlib1g-dev libfreetype6-dev liblcms2-dev
 
