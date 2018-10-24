@@ -5,7 +5,7 @@ jobs:
   build:
     working_directory: ~/ingest-client
     docker:
-      - image: circleci/python:3.5-stretch-browsers-legacy
+      - image: randomknowledge/docker-pyenv-tox
         environment:
             PIPENV_VENV_IN_PROJECT: true
   
