@@ -5,7 +5,7 @@ jobs:
   build:
     working_directory: ~/ingest-client
     docker:
-      - image: circleci/python:3.5.6
+      - image: circleci/python:3.5-stretch-browsers-legacy
         environment:
             PIPENV_VENV_IN_PROJECT: true
   
@@ -23,7 +23,7 @@ jobs:
             command: |
                 sudo apt-get update
                 # sudo apt-get install -y libjpeg-dev libtiff5-dev zlib1g-dev libfreetype6-dev liblcms2-dev libopenjpeg-dev
-                uname -mrs
+                uname -a
                 sudo apt-get install -y libjpeg-dev libtiff5-dev zlib1g-dev libfreetype6-dev liblcms2-dev
 
         - run: 
