@@ -42,6 +42,7 @@ jobs:
         - run: 
             name: Run pyenv local versions 
             command: | 
+                echo "ls home: `ls -al ~`"
                 pyenv local 2.7.10 3.4.3 3.5.1
 
  #       - run:                
