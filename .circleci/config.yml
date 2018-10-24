@@ -26,7 +26,7 @@ jobs:
                 
                 apt-get update
                 # sudo apt-get install -y libjpeg-dev libtiff5-dev zlib1g-dev libfreetype6-dev liblcms2-dev libopenjpeg-dev
-                sudo apt-get install -y libjpeg-dev libtiff5-dev zlib1g-dev libfreetype6-dev liblcms2-dev
+                apt-get install -y libjpeg-dev libtiff5-dev zlib1g-dev libfreetype6-dev liblcms2-dev
 
         - run: 
             name: Activate a py3 venv 
@@ -38,8 +38,8 @@ jobs:
         - run: 
             name: Installing Python deps in the venv 
             command: |
-                sudo pip install tox 
-                sudo pip install tox-pyenv
+                pip install tox 
+                pip install tox-pyenv
 
         - run: 
             name: Run pyenv local versions 
@@ -54,7 +54,7 @@ jobs:
         - run:
             name: Installing pip requirements in the venv
             command: |
-                sudo pip install -r requirements.txt
+                pip install -r requirements.txt
                 
         - save_cache:
             paths:
