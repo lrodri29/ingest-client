@@ -31,10 +31,12 @@ jobs:
         - run: 
             name: Activate a py3 venv 
             command: |
+                echo "python version: `python -V`"
+                apt-get install python3-pip
+                pip3 install virtualenv 
                 python3 -m venv venv
                 . venv/bin/activate
-                echo "python version: `python -V`"
-
+                
         - run: 
             name: Installing Python deps in the venv 
             command: |
