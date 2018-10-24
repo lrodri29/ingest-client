@@ -1,0 +1,60 @@
+# Python CircleCI 2.0 configuration file
+#
+version: 2
+jobs:
+  build:
+    working_directory: ~/ingest-client
+    docker:
+      - image: circleci/python:3.5.6
+        environment:
+            PIPENV_VENV_IN_PROJECT: true
+  
+    steps:
+        - checkout
+
+        - run: mkdir test-reports
+
+        - restore_cache:  # ensure this step occurs *before* installing dependencies
+            keys:
+                - cache-{{ checksum "requirements.txt" }}
+                - cache-
+        - run: 
+            name: Installing essential OS updates and libraries
+            command: |
+                sudo apt-get update
+                # sudo apt-get install -y libjpeg-dev libtiff5-dev zlib1g-dev libfreetype6-dev liblcms2-dev libopenjpeg-dev
+                uname -mrs
+                sudo apt-get install -y libjpeg-dev libtiff5-dev zlib1g-dev libfreetype6-dev liblcms2-dev
+
+        - run: 
+            name: Activate a py3 venv 
+            command: |
+                python3 -m venv venv
+                . venv/bin/activate
+                echo "python version: `python -V`"
+
+        - run: 
+            name: Installing Python deps in the venv 
+            command: |
+                pip install tox tox-pyenv
+
+ #       - run:                
+ #           name: Installing pyenv environmnents 
+ #           command: pyenv local 2.7.10 3.4.3 3.5.1
+
+        - run:
+            name: Installing pip requirements in the venv
+            command: |
+                pip install -r requirements.txt
+                
+        - save_cache:
+            paths:
+                - ~/.local
+                - ~/.cache
+            key: cache-{{ checksum "requirements.txt" }}
+
+        ####  Run Tests
+
+        - run:
+            name: Running tests ... tox
+            command: tox
