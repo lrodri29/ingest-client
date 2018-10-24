@@ -29,9 +29,9 @@ jobs:
             name: Installing tox 
             command: sudo pip install tox tox-pyenv
                 
-        - run:                
-            name: Installing pyenv environmnents 
-            command: pyenv local 2.7.10 3.4.3 3.5.1
+ #       - run:                
+ #           name: Installing pyenv environmnents 
+ #           command: pyenv local 2.7.10 3.4.3 3.5.1
 
         - run:
             name: Installing pip requirements 
