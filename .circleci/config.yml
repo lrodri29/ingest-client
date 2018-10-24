@@ -39,6 +39,11 @@ jobs:
                 sudo pip install tox 
                 sudo pip install tox-pyenv
 
+        - run: 
+            name: Run pyenv local versions 
+            command: | 
+                pyenv local 2.7.10 3.4.3 3.5.1
+
  #       - run:                
  #           name: Installing pyenv environmnents 
  #           command: pyenv local 2.7.10 3.4.3 3.5.1
