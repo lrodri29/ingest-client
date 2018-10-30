@@ -41,9 +41,7 @@ jobs:
         - run:
             name: Running tests ... nose2
             command: |
-                pwd
-                ls -al
-                nose2 -v
+                nose2 
 
         - store_artifacts:
             path: test-reports/
