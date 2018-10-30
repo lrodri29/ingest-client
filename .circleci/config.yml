@@ -5,9 +5,8 @@ jobs:
   build:
     working_directory: ~/ingest-client
     docker:
-      - image: randomknowledge/docker-pyenv-tox
-        environment:
-            PIPENV_VENV_IN_PROJECT: true
+      - image: circleci/python:3.6.4
+
   
     steps:
         - checkout
@@ -18,41 +17,13 @@ jobs:
             keys:
                 - cache-{{ checksum "requirements.txt" }}
                 - cache-
-        - run: 
-            name: Installing essential OS updates and libraries
-            command: |
-                uname -a
-                echo "release: `cat /etc/*-release`"
-                
-                apt-get update
-                # sudo apt-get install -y libjpeg-dev libtiff5-dev zlib1g-dev libfreetype6-dev liblcms2-dev libopenjpeg-dev
-                apt-get install -y libjpeg-dev libtiff5-dev zlib1g-dev libfreetype6-dev liblcms2-dev libopenjpeg-dev
 
         - run: 
-            name: Activate a py3 venv 
+            name: Installing Python requirement
             command: |
-                echo "python version: `python -V`"
-                apt-get install -y python3-pip
-                pip3 install virtualenv 
-                #python3 -m venv venv
-                virtualenv -p python3 venv
-                . venv/bin/activate
-                
-        - run: 
-            name: Installing Python deps in the venv 
-            command: |
-                pip install tox 
-                pip install tox-pyenv
+                sudo pip install -r requirements.txt
+                sudo pip install -U .
 
-        - run: 
-            name: Run pyenv local versions 
-            command: | 
-                echo "ls home: `ls -al ~`"
-                pyenv local 2.7.10 3.4.3 3.5.1
-
- #       - run:                
- #           name: Installing pyenv environmnents 
- #           command: pyenv local 2.7.10 3.4.3 3.5.1
 
         - run:
             name: Installing pip requirements in the venv
@@ -68,8 +39,8 @@ jobs:
         ####  Run Tests
 
         - run:
-            name: Running tests ... tox
-            command: tox
+            name: Running tests ... nose2
+            command: nose2 ingest-client
 
         - store_artifacts:
             path: test-reports/
