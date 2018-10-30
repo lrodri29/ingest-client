@@ -41,7 +41,8 @@ jobs:
         - run:
             name: Running tests ... nose2
             command: |
-                cd ${CIRCLE_WORKING_DIRECTORY}
+                pwd
+                cd "${CIRCLE_WORKING_DIRECTORY}"
                 pwd
                 nose2 test
 
