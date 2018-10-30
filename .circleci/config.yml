@@ -40,7 +40,10 @@ jobs:
 
         - run:
             name: Running tests ... nose2
-            command: nose2 test
+            command: |
+                cd ${CIRCLE_WORKING_DIRECTORY}
+                pwd
+                nose2 test
 
         - store_artifacts:
             path: test-reports/
