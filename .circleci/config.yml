@@ -3,7 +3,7 @@
 version: 2
 jobs:
   build:
-    working_directory: ~/repo
+    working_directory: ~/ingest-client
     docker:
       - image: circleci/python:3.6.4
 
@@ -40,7 +40,7 @@ jobs:
 
         - run:
             name: Running tests ... nose2
-            command: nose2 ingest-client
+            command: nose2 test
 
         - store_artifacts:
             path: test-reports/
