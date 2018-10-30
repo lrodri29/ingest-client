@@ -42,8 +42,7 @@ jobs:
             name: Running tests ... nose2
             command: |
                 pwd
-                cd "${CIRCLE_WORKING_DIRECTORY}"
-                pwd
+                ls -al
                 nose2 test
 
         - store_artifacts:
