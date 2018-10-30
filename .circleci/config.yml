@@ -43,7 +43,7 @@ jobs:
             command: |
                 pwd
                 ls -al
-                nose2
+                nose2 -v
 
         - store_artifacts:
             path: test-reports/
