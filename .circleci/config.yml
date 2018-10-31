@@ -34,13 +34,11 @@ jobs:
         - run:
             name: Running tests ... nose2
             command: |
-                python -m unittest > /tmp/artifacts/unittest_results.txt
+                python -m unittest -v  > /tmp/unittest_results.txt;
                 nose2
 
         - store_artifacts:
-            path: /tmp/artifacts
+            path: /tmp
             destination: unittest_results.txt
 
-        - store_artifacts:
-            path: /tmp/artifacts
 
