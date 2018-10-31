@@ -3,7 +3,7 @@
 version: 2
 jobs:
   build:
-    working_directory: ~/proj
+    working_directory: ~/ingest-client
     docker:
       - image: circleci/python:3.6.5
 
