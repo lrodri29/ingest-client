@@ -1,0 +1,46 @@
+# Python CircleCI 2.0 configuration file
+#
+version: 2
+jobs:
+  build:
+    working_directory: ~/proj
+    docker:
+      - image: circleci/python:3.6.5
+
+  
+    steps:
+        - checkout
+
+        - run: mkdir test-reports
+
+        - restore_cache:  # ensure this step occurs *before* installing dependencies
+            keys:
+                - cache-{{ checksum "requirements.txt" }}
+                - cache-
+
+        - run:
+            name: Installing pip requirements
+            command: |
+                pip install -r requirements.txt
+                
+        - save_cache:
+            paths:
+                - ~/.local
+                - ~/.cache
+            key: cache-{{ checksum "requirements.txt" }}
+
+        ####  Run Tests
+
+        - run:
+            name: Running tests ... nose2
+            command: |
+                python -m unittest > /tmp/artifacts/unittest_results.txt
+                nose2
+
+        - store_artifacts:
+            path: /tmp/artifacts
+            destination: unittest_results.txt
+
+        - store_artifacts:
+            path: /tmp/artifacts
+
