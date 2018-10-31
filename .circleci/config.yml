@@ -35,12 +35,12 @@ jobs:
             name: Running tests ... python unit tests [pipe stdout/err to results.txt]
             command: |
                 python -m unittest -v  &> /tmp/unittest_results.txt
-                nose2
 
         - run:
-            name: Running tests ... nose2
+            name: Running tests ... nose2 (on fail)
             command: |
                 nose2
+            when: on_fail
 
 
         - store_artifacts:
